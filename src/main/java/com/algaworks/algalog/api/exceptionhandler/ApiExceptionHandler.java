@@ -14,10 +14,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.algaworks.algalog.api.exceptionhandler.Problem.Field;
+import com.algaworks.algalog.domain.exception.BusinessException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -43,6 +45,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		problem.setFields(fields);
 		
 		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+	
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<Object> handleBusiness(BusinessException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		Problem problem = new Problem();
+		problem.setStatus(status.value());
+		problem.setDateTime(LocalDateTime.now());
+		problem.setTitle(ex.getMessage());
+		
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 	
 }
