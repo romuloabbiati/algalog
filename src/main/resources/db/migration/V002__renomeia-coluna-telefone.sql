@@ -1,1 +1,1 @@
-alter table client rename column telephone to phone;
+alter table customer rename column telephone to phone;

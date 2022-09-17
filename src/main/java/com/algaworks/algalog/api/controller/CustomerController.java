@@ -17,58 +17,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algalog.domain.model.Client;
-import com.algaworks.algalog.domain.repository.ClientRepository;
-import com.algaworks.algalog.domain.service.ClientService;
+import com.algaworks.algalog.domain.model.Customer;
+import com.algaworks.algalog.domain.repository.CustomerRepository;
+import com.algaworks.algalog.domain.service.CustomerService;
 
 @RestController
-@RequestMapping("/clients")
-public class ClientController {
+@RequestMapping("/customers")
+public class CustomerController {
 	
 	@Autowired
-	private ClientRepository clientRepository;
+	private CustomerRepository customerRepository;
 	
 	@Autowired
-	private ClientService clienteService;
+	private CustomerService customerService;
 	
 	@GetMapping
-	public List<Client> list() {
-		return clientRepository.findAll();
+	public List<Customer> list() {
+		return customerRepository.findAll();
 	}
 	
-	@GetMapping("/{clientId}")
-	public ResponseEntity<Client> findClient(@PathVariable Long clientId) {
-		return clientRepository.findById(clientId)
+	@GetMapping("/{customerId}")
+	public ResponseEntity<Customer> findCustomer(@PathVariable Long customerId) {
+		return customerRepository.findById(customerId)
 				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Client add(@Valid @RequestBody Client client) {
-		return clienteService.save(client);
+	public Customer add(@Valid @RequestBody Customer customer) {
+		return customerService.save(customer);
 	}
 	
-	@PutMapping("/{clientId}")
-	public ResponseEntity<Client> update(@PathVariable Long clientId, @Valid @RequestBody Client client) {
+	@PutMapping("/{customerId}")
+	public ResponseEntity<Customer> update(@PathVariable Long customerId, @Valid @RequestBody Customer customer) {
 		
-		if(!clientRepository.existsById(clientId)) {
+		if(!customerRepository.existsById(customerId)) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		client.setId(clientId);
-		client = clienteService.save(client);
+		customer.setId(customerId);
+		customer = customerService.save(customer);
 		
-		return ResponseEntity.ok(client);
+		return ResponseEntity.ok(customer);
 	}
 	
-	@DeleteMapping("/{clientId}")
-	public ResponseEntity<Void> delete(@PathVariable Long clientId) {
-		if(!clientRepository.existsById(clientId)) {
+	@DeleteMapping("/{customerId}")
+	public ResponseEntity<Void> delete(@PathVariable Long customerId) {
+		if(!customerRepository.existsById(customerId)) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		clienteService.delete(clientId);
+		customerService.delete(customerId);
 		
 		return ResponseEntity.noContent().build();
 	}
