@@ -1,7 +1,7 @@
 package com.algaworks.algalog.domain.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -54,10 +54,10 @@ public class Delivery {
 	private BigDecimal fee;
 	
 	@JsonProperty(access = Access.READ_ONLY)	
-	private LocalDateTime orderDate;
+	private OffsetDateTime orderDate;
 	
 	@JsonProperty(access = Access.READ_ONLY)
-	private LocalDateTime deliveryDate;
+	private OffsetDateTime deliveryDate;
 	
 
 }
