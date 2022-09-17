@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algalog.api.model.DeliveryModel;
+import com.algaworks.algalog.api.model.RecipientModel;
 import com.algaworks.algalog.domain.model.Delivery;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import com.algaworks.algalog.domain.service.CreateDeliveryService;
@@ -41,10 +43,25 @@ public class DeliveryController {
 	}
 	
 	@GetMapping(path = "/{deliveryId}")
-	public ResponseEntity<Delivery> findDelivery(@PathVariable Long deliveryId) {
+	public ResponseEntity<DeliveryModel> findDelivery(@PathVariable Long deliveryId) {
 		return deliveryRepository.findById(deliveryId)
-				.map(ResponseEntity::ok)
-				.orElse(ResponseEntity.notFound().build());
+				.map(delivery -> {
+					DeliveryModel deliveryModel = new DeliveryModel();
+					deliveryModel.setId(delivery.getId());
+					deliveryModel.setCustomerName(delivery.getCustomer().getName());
+					deliveryModel.setRecipient(new RecipientModel());
+					deliveryModel.getRecipient().setName(delivery.getRecipient().getName());
+					deliveryModel.getRecipient().setRoad(delivery.getRecipient().getRoad());
+					deliveryModel.getRecipient().setNumber(delivery.getRecipient().getNumber());
+					deliveryModel.getRecipient().setPlace(delivery.getRecipient().getPlace());
+					deliveryModel.getRecipient().setNeighborhood(delivery.getRecipient().getNeighborhood());
+					deliveryModel.setFee(delivery.getFee());
+					deliveryModel.setStatus(delivery.getStatus());
+					deliveryModel.setOrderDate(delivery.getOrderDate());
+					deliveryModel.setDeliveryDate(delivery.getDeliveryDate());
+					
+					return ResponseEntity.ok(deliveryModel);
+				}).orElse(ResponseEntity.notFound().build());
 	}
 	
 }
