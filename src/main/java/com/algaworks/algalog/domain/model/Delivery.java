@@ -11,7 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
+import com.algaworks.algalog.domain.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -30,9 +35,14 @@ public class Delivery {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Valid
+	@ConvertGroup(from = Default.class, to = ValidationGroups.ClientId.class)
+	@NotNull
 	@ManyToOne
 	private Customer customer;
 	
+	@Valid
+	@NotNull
 	@Embedded
 	private Recipient recipient;
 	
@@ -40,6 +50,7 @@ public class Delivery {
 	@Enumerated(EnumType.STRING)
 	private DeliveryStatus status;
 	
+	@NotNull
 	private BigDecimal fee;
 	
 	@JsonProperty(access = Access.READ_ONLY)	
