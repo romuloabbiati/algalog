@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algalog.api.assembler.DeliveryAssembler;
 import com.algaworks.algalog.api.model.DeliveryModel;
-import com.algaworks.algalog.api.model.RecipientModel;
+import com.algaworks.algalog.api.model.input.DeliveryInput;
 import com.algaworks.algalog.domain.model.Delivery;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import com.algaworks.algalog.domain.service.CreateDeliveryService;
@@ -31,36 +32,28 @@ public class DeliveryController {
 	
 	private DeliveryRepository deliveryRepository;
 	
+	private DeliveryAssembler deliveryAssembler;
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Delivery create(@Valid @RequestBody Delivery delivery) {
-		return createDeliveryService.create(delivery);
+	public DeliveryModel create(@Valid @RequestBody DeliveryInput delivery) {
+		Delivery newDelivery = deliveryAssembler.toEntityModel(delivery);
+		
+		return deliveryAssembler.toModel(createDeliveryService.create(newDelivery));
 	}
 	
 	@GetMapping
-	public List<Delivery> list() {
-		return deliveryRepository.findAll();
+	public List<DeliveryModel> list() {
+		List<Delivery> deliveries = deliveryRepository.findAll();
+		return deliveryAssembler.toCollectionModel(deliveries);
 	}
 	
 	@GetMapping(path = "/{deliveryId}")
 	public ResponseEntity<DeliveryModel> findDelivery(@PathVariable Long deliveryId) {
 		return deliveryRepository.findById(deliveryId)
 				.map(delivery -> {
-					DeliveryModel deliveryModel = new DeliveryModel();
-					deliveryModel.setId(delivery.getId());
-					deliveryModel.setCustomerName(delivery.getCustomer().getName());
-					deliveryModel.setRecipient(new RecipientModel());
-					deliveryModel.getRecipient().setName(delivery.getRecipient().getName());
-					deliveryModel.getRecipient().setRoad(delivery.getRecipient().getRoad());
-					deliveryModel.getRecipient().setNumber(delivery.getRecipient().getNumber());
-					deliveryModel.getRecipient().setPlace(delivery.getRecipient().getPlace());
-					deliveryModel.getRecipient().setNeighborhood(delivery.getRecipient().getNeighborhood());
-					deliveryModel.setFee(delivery.getFee());
-					deliveryModel.setStatus(delivery.getStatus());
-					deliveryModel.setOrderDate(delivery.getOrderDate());
-					deliveryModel.setDeliveryDate(delivery.getDeliveryDate());
+					return ResponseEntity.ok(deliveryAssembler.toModel(delivery));
 					
-					return ResponseEntity.ok(deliveryModel);
 				}).orElse(ResponseEntity.notFound().build());
 	}
 	
