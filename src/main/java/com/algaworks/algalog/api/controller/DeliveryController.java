@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,6 +20,7 @@ import com.algaworks.algalog.api.model.DeliveryModel;
 import com.algaworks.algalog.api.model.input.DeliveryInput;
 import com.algaworks.algalog.domain.model.Delivery;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
+import com.algaworks.algalog.domain.service.CompletionDeliveryService;
 import com.algaworks.algalog.domain.service.CreateDeliveryService;
 
 import lombok.AllArgsConstructor;
@@ -34,12 +36,20 @@ public class DeliveryController {
 	
 	private DeliveryAssembler deliveryAssembler;
 	
+	private CompletionDeliveryService completionDeliveryService;
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public DeliveryModel create(@Valid @RequestBody DeliveryInput delivery) {
 		Delivery newDelivery = deliveryAssembler.toEntityModel(delivery);
 		
 		return deliveryAssembler.toModel(createDeliveryService.create(newDelivery));
+	}
+	
+	@PutMapping(path = "/{deliveryId}/completion")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void complete(@PathVariable Long deliveryId) {
+		completionDeliveryService.complete(deliveryId);
 	}
 	
 	@GetMapping

@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.algaworks.algalog.domain.exception.BusinessException;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -68,6 +70,23 @@ public class Delivery {
 		
 		return occurrence;
 	}
+
+	public void complete() {
+		
+		if(cannotBeCompleted()) {
+			throw new BusinessException("Delivery cannot be completed!");
+		}
+		
+		this.setStatus(DeliveryStatus.DONE);
+		this.setDeliveryDate(OffsetDateTime.now());
+	}
+
+	public boolean canBeCompleted() {
+		return DeliveryStatus.PENDING.equals(this.getStatus());
+	}
 	
+	public boolean cannotBeCompleted() {
+		return !canBeCompleted();
+	}
 
 }
