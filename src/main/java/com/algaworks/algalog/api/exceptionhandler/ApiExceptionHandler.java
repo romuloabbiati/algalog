@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.algaworks.algalog.api.exceptionhandler.Problem.Field;
 import com.algaworks.algalog.domain.exception.BusinessException;
+import com.algaworks.algalog.domain.exception.EntityNotFoundException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -45,6 +46,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		problem.setFields(fields);
 		
 		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+	
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		
+		Problem problem = new Problem();
+		problem.setStatus(status.value());
+		problem.setDateTime(OffsetDateTime.now());
+		problem.setTitle(ex.getMessage());
+		
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 	
 	@ExceptionHandler(BusinessException.class)
