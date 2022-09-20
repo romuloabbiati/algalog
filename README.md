@@ -22,7 +22,6 @@ This application consists of a Delivery app which receives all the data related 
 - Lombok
 - ModelMapper
 - Flyway
-- My
 
 ## Data persistence - Local DB
 - MySQL
