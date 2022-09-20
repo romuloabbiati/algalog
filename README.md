@@ -1,9 +1,7 @@
-# Project Name: DSMeta 
+# Project Name: AlgaLog 
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/romuloabbiati/algalog/blob/main/LICENSE) 
 
 # About the project
-
-https://dsmeta-abbiati.netlify.app/
 
 AlgaLog is a back-end app (API Rest) built using Spring Boot during the **Spring Rest Especialist Week**, this event is organised by [AlgaWorks](https://www.algaworks.com/ "Site da AlgaWorks").
 
