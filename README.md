@@ -1,74 +1,69 @@
 # Project Name: DSMeta 
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/romuloabbiati/dsmeta/blob/main/LICENSE) 
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/romuloabbiati/algalog/blob/main/LICENSE) 
 
 # About the project
 
 https://dsmeta-abbiati.netlify.app/
 
-DSMeta is a full stack web and mobile browser built during the **DevSuperior Week**, this event is organised by [DevSuperior](https://devsuperior.com "Site da DevSuperior").
+AlgaLog is a back-end app (API Rest) built using Spring Boot during the **Spring Rest Especialist Week**, this event is organised by [AlgaWorks](https://www.algaworks.com/ "Site da AlgaWorks").
 
-This application consists of a sales list of each seller. By clicking the red button, it is possible to send a SMS to let the seller know, for instance, how much was sold by that seller.
+This application consists of a Delivery app which receives all the data related to the order like customer who created the order, recipient, time when this order was created, so on and so forth. The order is tracked by the delivery status that can be PENDING, CANCELLED or DONE.
 
-## Layout mobile
-![Mobile 1](https://github.com/acenelio/assets/raw/main/sds1/mobile1.png) ![Mobile 2](https://github.com/acenelio/assets/raw/main/sds1/mobile2.png)
+## Creating a new order
+![Web 1](https://github.com/romuloabbiati/assets/blob/main/postman.jpg)
 
-## Layout web
-![Web 1](https://github.com/acenelio/assets/raw/main/sds1/web1.png)
+## UML model
+![Modelo Conceitual](https://github.com/romuloabbiati/assets/blob/main/uml-projeto.jpg)
 
-![Web 2](https://github.com/acenelio/assets/raw/main/sds1/web2.png)
-
-## Modelo conceitual
-![Modelo Conceitual](https://github.com/acenelio/assets/raw/main/sds1/modelo-conceitual.png)
-
-# Tecnologias utilizadas
+# Technologies used
 ## Back end
-- Java
+- Java 11
 - Spring Boot
 - JPA / Hibernate
 - Maven
-## Front end
-- HTML / CSS / JS / TypeScript
-- ReactJS
-- React Native
-- Apex Charts
-- Expo
-## Implantação em produção
-- Back end: Heroku
-- Front end web: Netlify
-- Banco de dados: Postgresql
+- Lombok
+- ModelMapper
+- Flyway
+- My
 
-# Como executar o projeto
+## Data persistence - Local DB
+- MySQL
+
+# How to run the project
 
 ## Back end
 Pré-requisitos: Java 11
 
 ```bash
 # clonar repositório
-git clone https://github.com/devsuperior/sds1-wmazoni
+git clone https://github.com/romuloabbiati/algalog
 
-# entrar na pasta do projeto back end
+# go to project's back end folder
 cd backend
 
-# executar o projeto
+# run the application
 ./mvnw spring-boot:run
 ```
 
-## Front end web
-Pré-requisitos: npm / yarn
+# Open PostMan
+- Send HTTP requests to the end points below
 
-```bash
-# clonar repositório
-git clone https://github.com/devsuperior/sds1-wmazoni
+## HTTP Request http://localhost:8080/customers
+- POST To create
+- GET To retrieve
+- DELETE To delete
+- PUT To update
 
-# entrar na pasta do projeto front end web
-cd front-web
+## HTTP Request http://localhost:8080/deliveries
+- POST To create
+- GET To retrieve
+- PUT To update the delivery status: PENDING > DONE
+- OBS.: Can be cancelled only if the status is PENDING
+  
+## HTTP Request http://localhost:8080/deliveries/{id}/occurrences
+- POST To create an occurrence (this will add a message to an delivery object, e.g. "delivery heading your way")
 
-# instalar dependências
-yarn install
-
-# executar o projeto
-yarn start
-```
+- GET To retrieve a list of occurrences of an delivery object
 
 # Author
 
