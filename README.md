@@ -5,7 +5,9 @@
 
 AlgaLog is a back-end app (API Rest) built using Spring Boot during the **Spring Rest Especialist Week**, this event is organised by [AlgaWorks](https://www.algaworks.com/ "Site da AlgaWorks").
 
-This application consists of a Delivery app which receives all the data related to the order like customer who created the order, recipient, time when this order was created, so on and so forth. The order is tracked by the delivery status that can be PENDING, CANCELLED or DONE.
+This application consists of a Delivery app which receives all the data related to an order like: customer who created the order, recipient, time when this order was created, so on and so forth. 
+
+The order is tracked by the delivery status that can be PENDING, CANCELLED or DONE.
 
 ## Creating a new order
 ![Web 1](https://github.com/romuloabbiati/assets/blob/main/postman.jpg)
