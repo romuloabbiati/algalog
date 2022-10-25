@@ -31,10 +31,10 @@ The order is tracked by the delivery status that can be PENDING, CANCELLED or DO
 # How to run the project
 
 ## Back end
-Pré-requisitos: Java 11
+Pre-requisites: Java 11
 
 ```bash
-# clonar repositório
+# Clone repository
 git clone https://github.com/romuloabbiati/algalog
 
 # go to project's back end folder
